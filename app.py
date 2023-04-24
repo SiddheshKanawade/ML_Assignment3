@@ -1,3 +1,5 @@
+
+
 import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,12 +8,14 @@ from sklearn.linear_model import LogisticRegression
 
 # Set the page title
 st.set_page_config(page_title="Logistic Regression Demo")
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
 # Define the logistic regression function
 def logistic_regression(X, y, epochs):
     # Initialize the logistic regression model
-    model = LogisticRegression(solver='lbfgs', max_iter=epochs)
+    print(epochs)
+    model = LogisticRegression(solver='saga', max_iter=epochs)
 
     # Train the model
     model.fit(X, y)
@@ -22,8 +26,6 @@ def logistic_regression(X, y, epochs):
     return model, y_pred, model.coef_, model.intercept_
 
 # Define the function to plot the decision boundary
-
-
 def plot_decision_boundary(X, y, model):
     # Create a meshgrid of points to plot the decision boundary
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
@@ -43,8 +45,6 @@ def plot_decision_boundary(X, y, model):
     plt.title('Decision Boundary')
 
 # Define the Streamlit app
-
-
 def app():
     # Set the app title
     st.title("Logistic Regression Demo")
@@ -52,7 +52,7 @@ def app():
     # Define the dataset selection dropdown
     dataset = st.selectbox(
         'Select a dataset:',
-        ('Iris', 'Breast Cancer')
+        ('Iris', 'Breast Cancer', 'Wine', 'Digits')
     )
 
     # Load the selected dataset
@@ -62,14 +62,19 @@ def app():
     elif dataset == 'Breast Cancer':
         X, y = datasets.load_breast_cancer(return_X_y=True)
         X = X[:, :2]
+    elif dataset == 'Wine':
+        X, y = datasets.load_wine(return_X_y=True)
+        X = X[:, :2]
+    elif dataset == 'Digits':
+        X, y = datasets.load_digits(return_X_y=True)
+        X = X[:, :2]
     else:
         st.error("Invalid dataset selected.")
 
     # Define the epochs slider
-    epochs = st.slider("Epochs", 0, 1000, 0, 50)
+    epochs = st.slider("Epochs", 0, 1000, 0, 5)
 
     # Plot the decision boundary for the selected epochs
-    print(epochs)
     if epochs > 0:
         model, y_pred, coef, intercept = logistic_regression(X, y, epochs)
         plt.figure()
