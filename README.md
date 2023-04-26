@@ -12,7 +12,7 @@ Run the depedencies mentioned in `requirements.txt`. You can find deployed versi
 ![Image](./results/iris.gif)
 
 2. Breast Cancer dataset
-![Image](./results/cancer.gif)
+![Image](./results/cancer1.gif)
 
 3. Wine Dataset
 ![Image](./results/wine.gif)
