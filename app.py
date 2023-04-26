@@ -52,7 +52,7 @@ def app():
     # Define the dataset selection dropdown
     dataset = st.selectbox(
         'Select a dataset:',
-        ('Iris', 'Breast Cancer', 'Wine', 'Digits')
+        ('Iris', 'Breast Cancer', 'Wine')
     )
 
     # Load the selected dataset
@@ -64,9 +64,6 @@ def app():
         X = X[:, :2]
     elif dataset == 'Wine':
         X, y = datasets.load_wine(return_X_y=True)
-        X = X[:, :2]
-    elif dataset == 'Digits':
-        X, y = datasets.load_digits(return_X_y=True)
         X = X[:, :2]
     else:
         st.error("Invalid dataset selected.")
